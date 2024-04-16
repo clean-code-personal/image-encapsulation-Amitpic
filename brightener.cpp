@@ -13,6 +13,15 @@ bool ImageBrightener::ValidateImage()
 	}
 }
 
+int ImageBrightener::BrightenWholeImageWithInRange()
+{
+	if (ValidateImage())
+	{
+		return BrightenWholeImage();
+	}
+	return -1;
+}
+
 int ImageBrightener::BrightenWholeImage() {
 	// For brightening, we add a certain grayscale (25) to every pixel.
 	// While brightening, some pixels may cross the max brightness. They are

@@ -3,19 +3,10 @@
 ImageBrightener::ImageBrightener(std::unique_ptr<Image> inputImage) : m_inputImage(std::move(inputImage)) {
 }
 
-bool ImageBrightener::ValidateImage()
-{
-	if (m_inputImage->m_columns <= 1024 && m_inputImage->m_rows <= 1024) {
-		return true;
-	}
-	else {
-		return false;
-	}
-}
 
 int ImageBrightener::BrightenWholeImageWithInRange()
 {
-	if (ValidateImage())
+	if (m_inputImage->ValidateBoundry())
 	{
 		return BrightenWholeImage();
 	}

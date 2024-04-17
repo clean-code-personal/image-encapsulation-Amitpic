@@ -1,16 +1,20 @@
 #include "brightener.h"
 
-ImageBrightener::ImageBrightener(std::unique_ptr<Image> inputImage) : m_inputImage(std::move(inputImage)) {
+ImageBrightener::ImageBrightener(std::shared_ptr<Image> inputImage) : m_inputImage(inputImage) {
 }
 
-bool ImageBrightener::ValidateImage()
+/// <summary>
+/// This is newly added method which encapsulate
+///  validateBoundry & Brigtining whole image.
+/// </summary>
+/// <returns>attenuatedPixelCount</returns>
+int ImageBrightener::BrightenWholeImageWithInRange()
 {
-	if (m_inputImage->m_columns <= 1024 && m_inputImage->m_rows <= 1024) {
-		return true;
+	if (m_inputImage->ValidateBoundry())
+	{
+		return BrightenWholeImage();
 	}
-	else {
-		return false;
-	}
+	return -1;
 }
 
 int ImageBrightener::BrightenWholeImage() {
@@ -21,16 +25,13 @@ int ImageBrightener::BrightenWholeImage() {
 	for (int x = 0; x < m_inputImage->m_rows; x++) {
 		for (int y = 0; y < m_inputImage->m_columns; y++) {
 			if (m_inputImage->pixels[x * m_inputImage->m_columns + y] > (255 - 25)) {
-				++attenuatedPixelCount;
-				// m_inputImage.pixels[x * m_inputImage.rows + 1 + y] = 255;
+				++attenuatedPixelCount;			
 				m_inputImage->pixels[x * m_inputImage->m_columns + y] = 255;
 			}
 			else {
-				// --attenuatedPixelCount;
-				// m_inputImage.pixels[x * m_inputImage.columns + y] += 25;
 				int pixelIndex = x * m_inputImage->m_columns + y;
 				m_inputImage->pixels[pixelIndex] += 25;
-				// m_inputImage.pixels[x * m_inputImage.rows + 1 + y] += 25;
+
 			}
 		}
 	}

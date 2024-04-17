@@ -3,9 +3,10 @@
 
 class ImageBrightener {
 private:
-	std::unique_ptr<Image> m_inputImage;
-public:
-	ImageBrightener(std::unique_ptr<Image> inputImage);
-	bool ValidateImage();
+	std::shared_ptr<Image> m_inputImage;
 	int BrightenWholeImage();
+public:
+	ImageBrightener(std::shared_ptr<Image> inputImage);
+	
+	int BrightenWholeImageWithInRange();
 };
